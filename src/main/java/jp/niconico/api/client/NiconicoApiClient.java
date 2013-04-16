@@ -3,18 +3,16 @@ package jp.niconico.api.client;
 import java.util.List;
 
 import jp.niconico.api.entity.SearchResult;
+import jp.niconico.api.method.NicoSearch;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.http.Header;
-import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.CookieStore;
-import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicHeader;
-import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -26,8 +24,6 @@ public class NiconicoApiClient {
 	private String password;
 
 	private CookieStore cookie = null;
-
-	private final String SEARCH_URL = "http://ext.nicovideo.jp/api/search/";
 
 	public void login(String mail, String password) {
 		if (StringUtils.isBlank(mail) || StringUtils.isBlank(password)) {
@@ -71,47 +67,8 @@ public class NiconicoApiClient {
 			return null;
 		}
 
-		List<SearchResult> results = null;
-		DefaultHttpClient httpClient = null;
-		try {
-			StringBuilder url = new StringBuilder(SEARCH_URL);
-			if (tagSearch) {
-				url.append("tag");
-			} else {
-				url.append("search");
-			}
-			url.append("/" + query);
-
-			url.append("?mode=watch&");
-			url.append("order=" + order);
-			url.append("&");
-			url.append("page=" + page);
-			url.append("&");
-			url.append("sort=" + sort);
-
-			httpClient = new DefaultHttpClient();
-			httpClient.setCookieStore(cookie);
-			HttpGet httpGet = new HttpGet(url.toString());
-			HttpResponse response = httpClient.execute(httpGet);
-
-			HttpEntity entity = response.getEntity();
-			String json = EntityUtils.toString(entity);
-			
-			if(logger.isDebugEnabled()) {
-				logger.info("response: " + json);
-			}
-			results = SearchResult.parse(json);
-
-		} catch (Exception e) {
-
-		} finally {
-			if (httpClient != null) {
-				httpClient.getConnectionManager().shutdown();
-			}
-		}
-
-		return results;
-
+		NicoSearch method = new NicoSearch(cookie);
+		return method.excute(query, sort, page, order, tagSearch);
 	}
 
 }

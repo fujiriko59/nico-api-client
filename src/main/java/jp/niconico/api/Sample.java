@@ -18,7 +18,7 @@ public class Sample
         NiconicoApiClient client = new NiconicoApiClient();
         
         client.login("", "");
-        List<SearchResult> results = client.search("初音ミク", "m", 1, "d", true);
+        List<SearchResult> results = client.search("とある科学の超電磁砲", "m", 1, "d", true);
         int counter = 0;
         for(SearchResult result: results) {
         	System.out.println("id:" + result.id);

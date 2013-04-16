@@ -1,11 +1,8 @@
 package jp.niconico.api.entity;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import net.arnx.jsonic.JSON;
-import net.arnx.jsonic.JSONException;
 
 public class SearchResult {
 	public String id;
