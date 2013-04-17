@@ -3,6 +3,7 @@ package jp.niconico.api;
 import java.util.List;
 
 import jp.niconico.api.client.NiconicoApiClient;
+import jp.niconico.api.entity.CommentInfo;
 import jp.niconico.api.entity.SearchResult;
 
 /**
@@ -18,6 +19,14 @@ public class Sample
         NiconicoApiClient client = new NiconicoApiClient();
         
         client.login("", "");
+        
+        List<CommentInfo> list = client.getComment("sm20610463");
+        
+        for(CommentInfo info: list) {
+        	System.out.println(info.msg);
+        }
+        
+        /* search test
         List<SearchResult> results = client.search("とある科学の超電磁砲", "m", 1, "d", true);
         int counter = 0;
         for(SearchResult result: results) {
@@ -31,5 +40,6 @@ public class Sample
         	counter++;
         }
         System.out.println("total:" + counter);
+        */
     }
 }
