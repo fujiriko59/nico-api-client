@@ -2,7 +2,9 @@ package jp.niconico.api.client;
 
 import java.util.List;
 
+import jp.niconico.api.entity.LoginInfo;
 import jp.niconico.api.entity.SearchResult;
+import jp.niconico.api.method.NicoLogin;
 import jp.niconico.api.method.NicoSearch;
 
 import org.apache.commons.lang.StringUtils;
@@ -19,55 +21,24 @@ import org.slf4j.LoggerFactory;
 public class NiconicoApiClient {
 	private Logger logger = LoggerFactory.getLogger(NiconicoApiClient.class);
 
-	private String mail;
-
-	private String password;
-
-	private CookieStore cookie = null;
+	private LoginInfo loginInfo = null;
 
 	public void login(String mail, String password) {
 		if (StringUtils.isBlank(mail) || StringUtils.isBlank(password)) {
 			return;
 		}
-		this.mail = mail;
-		this.password = password;
-		cookie = null;
-
-		DefaultHttpClient httpClient = null;
-		try {
-			httpClient = new DefaultHttpClient();
-
-			HttpPost httpPost = new HttpPost(
-					"https://secure.nicovideo.jp:443/secure/login?site=niconico");
-			Header[] headers = { new BasicHeader("Content-type",
-					"application/x-www-form-urlencoded") };
-			httpPost.setHeaders(headers);
-			httpPost.setEntity(new StringEntity("mail=" + mail + "&password="
-					+ password, "UTF-8"));
-
-			logger.info("login: " + mail);
-
-			HttpResponse response = httpClient.execute(httpPost);
-			logger.info(response.getStatusLine().toString());
-			cookie = httpClient.getCookieStore();
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			if (httpClient != null) {
-				httpClient.getConnectionManager().shutdown();
-			}
-		}
-
+		
+		NicoLogin method = new NicoLogin();
+		loginInfo = method.excute(mail, password);
 	}
 
 	public List<SearchResult> search(String query, String sort, int page,
 			String order, boolean tagSearch) {
-		if (cookie == null) {
+		if (loginInfo == null) {
 			return null;
 		}
 
-		NicoSearch method = new NicoSearch(cookie);
+		NicoSearch method = new NicoSearch(loginInfo);
 		return method.excute(query, sort, page, order, tagSearch);
 	}
 
