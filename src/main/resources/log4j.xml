@@ -9,7 +9,7 @@
 		</layout>
 	</appender>
 	<appender name="rollingFile" class="org.apache.log4j.RollingFileAppender">
-		<param name="File" value="./logs/empros-agent.out"/> <!-- TODO パス設定 -->
+		<param name="File" value="./logs/nico_api.out"/> <!-- TODO パス設定 -->
 		<param name="Append" value="true"/>
 		<param name="MaxFileSize" value="10MB"/>
 		<param name="MaxBackupIndex" value="20"/>

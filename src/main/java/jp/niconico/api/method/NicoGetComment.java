@@ -16,6 +16,7 @@ import org.slf4j.LoggerFactory;
 import jp.niconico.api.entity.CommentInfo;
 import jp.niconico.api.entity.FlvInfo;
 import jp.niconico.api.entity.LoginInfo;
+import jp.niconico.api.exception.NiconicoException;
 
 public class NicoGetComment {
 	private Logger logger = LoggerFactory.getLogger(NicoGetComment.class);
@@ -31,7 +32,7 @@ public class NicoGetComment {
 		this.flvInfo = flvInfo;
 	}
 
-	public List<CommentInfo> excute(String id, int page) {
+	public List<CommentInfo> excute(String id, int page) throws NiconicoException {
 		DefaultHttpClient httpClient = null;
 		List<CommentInfo> list = new ArrayList<CommentInfo>();
 
@@ -115,7 +116,7 @@ public class NicoGetComment {
 			list = CommentInfo.parse(id, responseXml);
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			throw new NiconicoException(e.getMessage());
 		} finally {
 			if (httpClient != null) {
 				httpClient.getConnectionManager().shutdown();

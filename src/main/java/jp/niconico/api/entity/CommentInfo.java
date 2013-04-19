@@ -12,6 +12,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlValue;
 
 import jp.niconico.api.entity.CommentInfo.Packet.Chat;
+import jp.niconico.api.exception.NiconicoException;
 
 public class CommentInfo {
 
@@ -33,7 +34,7 @@ public class CommentInfo {
 
 	public String msg;
 
-	public static List<CommentInfo> parse(String id, String xml) {
+	public static List<CommentInfo> parse(String id, String xml) throws NiconicoException{
 		List<CommentInfo> list = new ArrayList<CommentInfo>();
 		try {
 			ByteArrayInputStream in = new ByteArrayInputStream(xml.getBytes("UTF-8"));
@@ -57,7 +58,7 @@ public class CommentInfo {
 			}
 			
 		} catch(Exception e) {
-			e.printStackTrace();
+			throw new NiconicoException(e.getMessage());
 		}
 		
 		sort("date", "DESC", list);

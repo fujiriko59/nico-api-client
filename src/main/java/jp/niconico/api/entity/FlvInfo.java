@@ -1,7 +1,7 @@
 package jp.niconico.api.entity;
 
 public class FlvInfo {
-	public String threadId;
+	public String threadId = null;
 	
 	public int l;
 	

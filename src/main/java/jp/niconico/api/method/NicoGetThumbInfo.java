@@ -8,11 +8,12 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
 
 import jp.niconico.api.entity.ThumbInfo;
+import jp.niconico.api.exception.NiconicoException;
 
 public class NicoGetThumbInfo {
 	private String methodUrl = "http://ext.nicovideo.jp/api/getthumbinfo/";
 	
-	public ThumbInfo excute(String id) {
+	public ThumbInfo excute(String id) throws NiconicoException {
 		HttpClient httpClient = null;
 		ThumbInfo info = null;
 		try {
@@ -25,7 +26,7 @@ public class NicoGetThumbInfo {
 			info = ThumbInfo.parse(xml);
 			
 		} catch (Exception e) {
-			e.printStackTrace();
+			throw new NiconicoException(e.getMessage());
 		} finally {
 			if (httpClient != null) {
 				httpClient.getConnectionManager().shutdown();

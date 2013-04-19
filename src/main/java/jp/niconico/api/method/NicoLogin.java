@@ -1,7 +1,11 @@
 package jp.niconico.api.method;
 
-import jp.niconico.api.entity.LoginInfo;
+import java.io.IOException;
 
+import jp.niconico.api.entity.LoginInfo;
+import jp.niconico.api.exception.NiconicoException;
+
+import org.apache.commons.lang.StringUtils;
 import org.apache.http.Header;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpPost;
@@ -14,7 +18,11 @@ import org.slf4j.LoggerFactory;
 public class NicoLogin {
 	private Logger logger = LoggerFactory.getLogger(NicoLogin.class);
 	
-	public LoginInfo excute(String mail, String password) {
+	public LoginInfo excute(String mail, String password) throws NiconicoException{
+		if (StringUtils.isBlank(mail) || StringUtils.isBlank(password)) {
+			throw new NiconicoException("Login parameters was empty.");
+		}
+		
 		DefaultHttpClient httpClient = null;
 		LoginInfo info = null;
 		try {
@@ -28,16 +36,17 @@ public class NicoLogin {
 			httpPost.setEntity(new StringEntity("mail=" + mail + "&password="
 					+ password, "UTF-8"));
 
-			logger.info("login: " + mail);
-
 			HttpResponse response = httpClient.execute(httpPost);
-			logger.info(response.getStatusLine().toString());
+			if(response.getStatusLine().getStatusCode() != 302) {
+				logger.warn("error");
+			}
 			
 			info = new LoginInfo();
 			info.cookie = httpClient.getCookieStore();
 			info.mail = mail;
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.warn("Failed to login -> " + mail);
+			throw new NiconicoException(e.getMessage());
 		} finally {
 			if (httpClient != null) {
 				httpClient.getConnectionManager().shutdown();
