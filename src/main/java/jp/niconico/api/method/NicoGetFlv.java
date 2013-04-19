@@ -84,7 +84,7 @@ public class NicoGetFlv {
         } catch (Exception e) {
             throw new NiconicoException(e.getMessage());
         } finally {
-            if(httpClient == null) {
+            if (httpClient == null) {
                 httpClient.getConnectionManager().shutdown();
             }
         }

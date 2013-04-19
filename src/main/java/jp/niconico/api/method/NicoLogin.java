@@ -16,43 +16,43 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class NicoLogin {
-	private Logger logger = LoggerFactory.getLogger(NicoLogin.class);
-	
-	public LoginInfo excute(String mail, String password) throws NiconicoException{
-		if (StringUtils.isBlank(mail) || StringUtils.isBlank(password)) {
-			throw new NiconicoException("Login parameters was empty.");
-		}
-		
-		DefaultHttpClient httpClient = null;
-		LoginInfo info = null;
-		try {
-			httpClient = new DefaultHttpClient();
+    private Logger logger = LoggerFactory.getLogger(NicoLogin.class);
 
-			HttpPost httpPost = new HttpPost(
-					"https://secure.nicovideo.jp:443/secure/login?site=niconico");
-			Header[] headers = { new BasicHeader("Content-type",
-					"application/x-www-form-urlencoded") };
-			httpPost.setHeaders(headers);
-			httpPost.setEntity(new StringEntity("mail=" + mail + "&password="
-					+ password, "UTF-8"));
+    public LoginInfo excute(String mail, String password) throws NiconicoException {
+        if (StringUtils.isBlank(mail) || StringUtils.isBlank(password)) {
+            throw new NiconicoException("Login parameters was empty.");
+        }
 
-			HttpResponse response = httpClient.execute(httpPost);
-			if(response.getStatusLine().getStatusCode() != 302) {
-				logger.warn("error");
-			}
-			
-			info = new LoginInfo();
-			info.cookie = httpClient.getCookieStore();
-			info.mail = mail;
-		} catch (Exception e) {
-			logger.warn("Failed to login -> " + mail);
-			throw new NiconicoException(e.getMessage());
-		} finally {
-			if (httpClient != null) {
-				httpClient.getConnectionManager().shutdown();
-			}
-		}
-		
-		return info;
-	}
+        DefaultHttpClient httpClient = null;
+        LoginInfo info = null;
+        try {
+            httpClient = new DefaultHttpClient();
+
+            HttpPost httpPost = new HttpPost(
+                    "https://secure.nicovideo.jp:443/secure/login?site=niconico");
+            Header[] headers = {new BasicHeader("Content-type",
+                    "application/x-www-form-urlencoded")};
+            httpPost.setHeaders(headers);
+            httpPost.setEntity(new StringEntity("mail=" + mail + "&password="
+                    + password, "UTF-8"));
+
+            HttpResponse response = httpClient.execute(httpPost);
+            if (response.getStatusLine().getStatusCode() != 302) {
+                logger.warn("error");
+            }
+
+            info = new LoginInfo();
+            info.cookie = httpClient.getCookieStore();
+            info.mail = mail;
+        } catch (Exception e) {
+            logger.warn("Failed to login -> " + mail);
+            throw new NiconicoException(e.getMessage());
+        } finally {
+            if (httpClient != null) {
+                httpClient.getConnectionManager().shutdown();
+            }
+        }
+
+        return info;
+    }
 }

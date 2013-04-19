@@ -10,27 +10,26 @@ import jp.niconico.api.exception.NiconicoException;
 
 /**
  * Hello world!
- * 
  */
 public class Sample {
-	public static void main(String[] args) {
-		System.out.println("Hello World!");
+    public static void main(String[] args) {
+        System.out.println("Hello World!");
 
-		try {
-			NiconicoApiClient client = new NiconicoApiClient();
-			client.login("", "");
+        try {
+            NiconicoApiClient client = new NiconicoApiClient();
+            client.login("", "");
 
 			/*
-			 * test thumbinfo ThumbInfo info =
+             * test thumbinfo ThumbInfo info =
 			 * client.getThumbInfo("sm20610463");
 			 * System.out.println(info.title);
 			 */
 
-			List<CommentInfo> list = client.getComment("sm20610463");
-			for (CommentInfo info : list) {
-				System.out.println(info.msg);
-			}
-			/*
+            List<CommentInfo> list = client.getComment("sm20610463");
+            for (CommentInfo info : list) {
+                System.out.println(info.msg);
+            }
+            /*
 			 * search test List<SearchResult> results =
 			 * client.search("とある科学の超電磁砲", "m", 1, "d", true); int counter = 0;
 			 * for(SearchResult result: results) { System.out.println("id:" +
@@ -42,8 +41,8 @@ public class Sample {
 			 * System.out.println(""); counter++; } System.out.println("total:"
 			 * + counter);
 			 */
-		} catch (NiconicoException e) {
-			e.printStackTrace();
-		}
-	}
+        } catch (NiconicoException e) {
+            e.printStackTrace();
+        }
+    }
 }
