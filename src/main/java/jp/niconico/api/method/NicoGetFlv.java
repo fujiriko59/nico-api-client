@@ -1,7 +1,6 @@
 package jp.niconico.api.method;
 
 import java.net.URLDecoder;
-import java.net.URLEncoder;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;

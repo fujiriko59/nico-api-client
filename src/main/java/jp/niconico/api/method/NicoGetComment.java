@@ -44,6 +44,7 @@ public class NicoGetComment {
 			String[] tmps = EntityUtils.toString(response.getEntity()).split(
 					"&");
 			String threadKey = null;
+			String force_184 = null;
 			for (String tmp : tmps) {
 				String[] pair = tmp.split("=");
 				if ("threadkey".equals(pair[0])) {
@@ -52,7 +53,13 @@ public class NicoGetComment {
 					} else {
 						threadKey = pair[1];
 					}
-					break;
+				} else if ("force_184".equals(pair[0])) {
+					if (pair.length < 2 || StringUtils.isBlank(pair[1])) {
+						force_184 = null;
+					} else {
+						force_184 = pair[1];
+					}
+
 				}
 			}
 
@@ -73,7 +80,29 @@ public class NicoGetComment {
 				xml.append("</thread_leaves>");
 				xml.append("</packet>");
 			} else {
-				//TODO スレッドキーあり
+				// TODO 動作確認
+				xml.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
+				xml.append("<packet>");
+				xml.append("<thread ");
+				xml.append("thread=\"" + flvInfo.threadId + "\" ");
+				xml.append("version=\"20090904\" ");
+				xml.append("user_id=\"" + flvInfo.userId + "\"　");
+				xml.append("threadkey=\"" + threadKey + "\"　");
+				if (StringUtils.isNotBlank(force_184)) {
+					xml.append("force_184=\"" + force_184 + "\"");
+				}
+				xml.append("/>");
+				xml.append("<thread_leaves ");
+				xml.append("thread=\"" + flvInfo.threadId + "\" ");
+				xml.append("user_id=\"" + flvInfo.userId + "\" ");
+				xml.append("threadkey=\"" + threadKey + "\"　");
+				if (StringUtils.isNotBlank(force_184)) {
+					xml.append("force_184=\"" + force_184 + "\"");
+				}
+				xml.append(">");
+				xml.append("0-9999:1,10000");
+				xml.append("</thread_leaves>");
+				xml.append("</packet>");
 			}
 
 			HttpPost httpPost = new HttpPost(flvInfo.ms);
@@ -84,7 +113,6 @@ public class NicoGetComment {
 					"UTF-8");
 
 			list = CommentInfo.parse(id, responseXml);
-			
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -93,7 +121,7 @@ public class NicoGetComment {
 				httpClient.getConnectionManager().shutdown();
 			}
 		}
-		
+
 		return list;
 	}
 }

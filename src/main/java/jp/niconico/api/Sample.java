@@ -5,6 +5,7 @@ import java.util.List;
 import jp.niconico.api.client.NiconicoApiClient;
 import jp.niconico.api.entity.CommentInfo;
 import jp.niconico.api.entity.SearchResult;
+import jp.niconico.api.entity.ThumbInfo;
 
 /**
  * Hello world!
@@ -20,12 +21,15 @@ public class Sample
         
         client.login("", "");
         
-        List<CommentInfo> list = client.getComment("sm20610463");
+        /* test thumbinfo
+        ThumbInfo info = client.getThumbInfo("sm20610463");
+        System.out.println(info.title);
+        */
         
+        List<CommentInfo> list = client.getComment("sm20610463");
         for(CommentInfo info: list) {
         	System.out.println(info.msg);
         }
-        
         /* search test
         List<SearchResult> results = client.search("とある科学の超電磁砲", "m", 1, "d", true);
         int counter = 0;

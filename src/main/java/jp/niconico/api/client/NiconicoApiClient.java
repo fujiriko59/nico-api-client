@@ -6,8 +6,10 @@ import jp.niconico.api.entity.CommentInfo;
 import jp.niconico.api.entity.FlvInfo;
 import jp.niconico.api.entity.LoginInfo;
 import jp.niconico.api.entity.SearchResult;
+import jp.niconico.api.entity.ThumbInfo;
 import jp.niconico.api.method.NicoGetComment;
 import jp.niconico.api.method.NicoGetFlv;
+import jp.niconico.api.method.NicoGetThumbInfo;
 import jp.niconico.api.method.NicoLogin;
 import jp.niconico.api.method.NicoSearch;
 
@@ -54,5 +56,10 @@ public class NiconicoApiClient {
 		NicoGetComment method = new NicoGetComment(loginInfo, flvInfo);
 		return method.excute(id, 0);
 	}
-
+	
+	public ThumbInfo getThumbInfo(String id) {
+		NicoGetThumbInfo method = new NicoGetThumbInfo();
+		return method.excute(id);
+	}
+	
 }
