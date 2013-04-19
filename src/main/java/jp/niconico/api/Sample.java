@@ -4,6 +4,7 @@ import java.util.List;
 
 import jp.niconico.api.client.NiconicoApiClient;
 import jp.niconico.api.entity.CommentInfo;
+import jp.niconico.api.entity.RankingInfo;
 import jp.niconico.api.entity.SearchResult;
 import jp.niconico.api.entity.ThumbInfo;
 import jp.niconico.api.exception.NiconicoException;
@@ -17,7 +18,12 @@ public class Sample {
 
         try {
             NiconicoApiClient client = new NiconicoApiClient();
-            client.login("", "");
+            //client.login("", "");
+
+            List<RankingInfo> list = client.getRanking("daily", "fav");
+            for (RankingInfo info : list) {
+                System.out.println(info.title);
+            }
 
 			/*
              * test thumbinfo ThumbInfo info =
@@ -25,12 +31,15 @@ public class Sample {
 			 * System.out.println(info.title);
 			 */
 
-            List<CommentInfo> list = client.getComment("sm20610463");
+            /* test ranking
+            List<CommentInfo> list = client.getComment("sm14027065");
             for (CommentInfo info : list) {
                 System.out.println(info.msg);
             }
+            */
+
             /*
-			 * search test List<SearchResult> results =
+             * search test List<SearchResult> results =
 			 * client.search("とある科学の超電磁砲", "m", 1, "d", true); int counter = 0;
 			 * for(SearchResult result: results) { System.out.println("id:" +
 			 * result.id); System.out.println("title:" + result.title);
