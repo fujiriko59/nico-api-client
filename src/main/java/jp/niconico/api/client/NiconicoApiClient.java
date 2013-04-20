@@ -1,5 +1,6 @@
 package jp.niconico.api.client;
 
+import java.io.File;
 import java.util.List;
 
 import jp.niconico.api.entity.*;
@@ -31,10 +32,6 @@ public class NiconicoApiClient {
     }
 
     public FlvInfo getFlv(String id) throws NiconicoException {
-        if (loginInfo == null) {
-            return null;
-        }
-
         NicoGetFlv method = new NicoGetFlv(loginInfo);
         return method.excute(id);
     }
@@ -64,5 +61,12 @@ public class NiconicoApiClient {
     public List<MylistItem> getMylistItems(String mylistId) throws NiconicoException {
         NicoGetMylist method = new NicoGetMylist(loginInfo);
         return method.getMylistItems(mylistId);
+    }
+
+    public File downloadVideo(String id, String destDir) throws NiconicoException {
+        FlvInfo flvInfo = getFlv(id);
+        ThumbInfo thumbInfo = getThumbInfo(id);
+        NicoDownloadVideo method = new NicoDownloadVideo(id, loginInfo, flvInfo, thumbInfo);
+        return method.execute(destDir);
     }
 }

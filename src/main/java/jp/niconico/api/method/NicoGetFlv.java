@@ -47,7 +47,11 @@ public class NicoGetFlv {
             String[] results = EntityUtils.toString(entity).split("&");
             info = new FlvInfo();
             for (String str : results) {
-                String[] pair = URLDecoder.decode(str, "UTF-8").split("=");
+                String[] pair = str.split("=");
+                pair[0] = URLDecoder.decode(pair[0], "UTF-8");
+                if (pair.length == 2) {
+                    pair[1] = URLDecoder.decode(pair[1], "UTF-8");
+                }
 
                 if ("thread_id".equals(pair[0])) {
                     info.threadId = pair[1];

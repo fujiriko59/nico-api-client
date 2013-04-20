@@ -18,6 +18,8 @@ public class Sample {
             NiconicoApiClient client = new NiconicoApiClient();
             client.login("", "");
 
+            client.downloadVideo("sm15039386", ".");
+            /* mylist test
             List<Mylist> list = client.getOwnerMylists();
             for (Mylist mylist : list) {
                 System.out.println("mylistName: " + mylist.name);
@@ -27,6 +29,7 @@ public class Sample {
                 }
                 System.out.println("");
             }
+            */
 
             /* ranking test
             List<RankingInfo> list = client.getRanking("daily", "fav");
