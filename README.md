@@ -6,8 +6,7 @@
     $ mvn clean package
 
 ##samples
-*ログイン*
-ほとんどのAPIの実行にはログインが必要。しなくてもいいのもある。
+*ログイン*  ほとんどのAPIの実行にはログインが必要。しなくてもいいのもある。
 
     NiconicoApiClient client = new NiconicoApiClient();
     client.login("mail address", "password");
