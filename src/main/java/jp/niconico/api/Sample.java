@@ -3,11 +3,9 @@ package jp.niconico.api;
 import java.util.List;
 
 import jp.niconico.api.client.NiconicoApiClient;
-import jp.niconico.api.entity.CommentInfo;
-import jp.niconico.api.entity.RankingInfo;
-import jp.niconico.api.entity.SearchResult;
-import jp.niconico.api.entity.ThumbInfo;
+import jp.niconico.api.entity.*;
 import jp.niconico.api.exception.NiconicoException;
+import jp.niconico.api.method.NicoGetMylist;
 
 /**
  * Hello world!
@@ -18,12 +16,24 @@ public class Sample {
 
         try {
             NiconicoApiClient client = new NiconicoApiClient();
-            //client.login("", "");
+            client.login("", "");
 
+            List<Mylist> list = client.getOwnerMylists();
+            for (Mylist mylist : list) {
+                System.out.println("mylistName: " + mylist.name);
+                List<MylistItem> items = client.getMylistItems(mylist.id);
+                for (MylistItem item : items) {
+                    System.out.println(item.title);
+                }
+                System.out.println("");
+            }
+
+            /* ranking test
             List<RankingInfo> list = client.getRanking("daily", "fav");
             for (RankingInfo info : list) {
                 System.out.println(info.title);
             }
+            */
 
 			/*
              * test thumbinfo ThumbInfo info =

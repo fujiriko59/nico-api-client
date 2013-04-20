@@ -56,4 +56,13 @@ public class NiconicoApiClient {
         return method.execute(period, rankKind);
     }
 
+    public List<Mylist> getOwnerMylists() throws NiconicoException {
+        NicoGetMylist method = new NicoGetMylist(loginInfo);
+        return method.getOwnerMylists();
+    }
+
+    public List<MylistItem> getMylistItems(String mylistId) throws NiconicoException {
+        NicoGetMylist method = new NicoGetMylist(loginInfo);
+        return method.getMylistItems(mylistId);
+    }
 }
