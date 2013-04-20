@@ -43,6 +43,7 @@ public class NicoDownloadVideo {
         }
         String fileName = thumbInfo.title;
         String fileType = thumbInfo.movieType;
+        File destFile = null;
 
         //TODO mac（など）で日本語ファイル名文字化け問題暫定
         fileName = "nicovideo-" + thumbInfo.id;
@@ -67,7 +68,7 @@ public class NicoDownloadVideo {
             long execTime = (new Date()).getTime() - startTime;
             logger.info("download end.  exec time: " + execTime + "ms");
 
-            File destFile = new File(dir.getAbsolutePath() + "/" + fileName + "." + fileType);
+            destFile = new File(dir.getAbsolutePath() + "/" + fileName + "." + fileType);
             if (destFile.exists()) {
                 Date date = new Date();
                 long time = date.getTime();
@@ -87,6 +88,6 @@ public class NicoDownloadVideo {
         }
 
 
-        return null;
+        return destFile;
     }
 }
