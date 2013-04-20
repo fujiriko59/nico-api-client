@@ -1,7 +1,5 @@
 package jp.niconico.api.method;
 
-import java.io.IOException;
-
 import jp.niconico.api.entity.LoginInfo;
 import jp.niconico.api.exception.NiconicoException;
 
@@ -38,8 +36,22 @@ public class NicoLogin {
 
             HttpResponse response = httpClient.execute(httpPost);
             if (response.getStatusLine().getStatusCode() != 302) {
-                logger.warn("error");
+                throw new NiconicoException("Login request error.");
             }
+
+            //Check redirect URL
+            Header[] resHeaders = response.getHeaders("Location");
+            for (Header header : resHeaders) {
+                if ("Location".equals(header.getName())) {
+                    if (header.getValue().contains("https://secure.nicovideo.jp/secure/login")) {
+                        throw new NiconicoException("Invalid mail or password");
+                    }
+                    break;
+                }
+            }
+
+            //release entity
+            response.getEntity().getContent();
 
             info = new LoginInfo();
             info.cookie = httpClient.getCookieStore();

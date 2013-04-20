@@ -114,7 +114,7 @@ public class CommentInfo {
 
         @Override
         public int compare(Object o1, Object o2) {
-            int ret = 0;
+            int ret;
 
             CommentInfo info1 = (CommentInfo) o1;
             CommentInfo info2 = (CommentInfo) o2;

@@ -2,33 +2,34 @@
 <!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
 
 <log4j:configuration xmlns:log4j='http://jakarta.apache.org/log4j/'>
-	<appender name="stdout" class="org.apache.log4j.ConsoleAppender">
-		<param name="Target" value="System.out"/>
-		<layout class="org.apache.log4j.PatternLayout">
-			<param name="ConversionPattern" value="%d [%t] %-5p %c - %m%n"/>
-		</layout>
-	</appender>
-	<appender name="rollingFile" class="org.apache.log4j.RollingFileAppender">
-		<param name="File" value="./logs/nico_api.out"/> <!-- TODO パス設定 -->
-		<param name="Append" value="true"/>
-		<param name="MaxFileSize" value="10MB"/>
-		<param name="MaxBackupIndex" value="20"/>
-		<layout class="org.apache.log4j.PatternLayout">
-			<param name="ConversionPattern" value="%d [%t] %-5p %c - %m%n"/>
-		</layout>
-	</appender>
+    <appender name="stdout" class="org.apache.log4j.ConsoleAppender">
+        <param name="Target" value="System.out"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d [%t] %-5p %c - %m%n"/>
+        </layout>
+    </appender>
+    <appender name="rollingFile" class="org.apache.log4j.RollingFileAppender">
+        <param name="File" value="./logs/nico_api.out"/>
+        <!-- TODO パス設定 -->
+        <param name="Append" value="true"/>
+        <param name="MaxFileSize" value="10MB"/>
+        <param name="MaxBackupIndex" value="20"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d [%t] %-5p %c - %m%n"/>
+        </layout>
+    </appender>
 
-	<logger name="org.codelibs.empros.agent.operation" >
-		<level value="debug" />
-	</logger>
-	<logger name="org.codelibs.empros.agent.task" >
-		<level value="debug" />
-	</logger>
+    <logger name="org.codelibs.empros.agent.operation">
+        <level value="debug"/>
+    </logger>
+    <logger name="org.codelibs.empros.agent.task">
+        <level value="debug"/>
+    </logger>
 
-	<root>
-		<priority value="info" />
-		<appender-ref ref="rollingFile"/>
-		<appender-ref ref="stdout"/>
-	</root>
-	
+    <root>
+        <priority value="info"/>
+        <appender-ref ref="rollingFile"/>
+        <appender-ref ref="stdout"/>
+    </root>
+
 </log4j:configuration>

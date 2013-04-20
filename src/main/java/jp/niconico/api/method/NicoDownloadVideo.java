@@ -19,7 +19,7 @@ import java.util.Date;
 public class NicoDownloadVideo {
     Logger logger = LoggerFactory.getLogger(NicoDownloadVideo.class);
 
-    private final String videoUrl = "http://www.nicovideo.jp/watch/";
+    private String videoUrl = "http://www.nicovideo.jp/watch/";
 
     private LoginInfo loginInfo;
 

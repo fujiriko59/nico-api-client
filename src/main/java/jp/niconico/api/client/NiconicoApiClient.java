@@ -8,17 +8,22 @@ import jp.niconico.api.exception.NiconicoException;
 import jp.niconico.api.method.*;
 
 import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class NiconicoApiClient {
-    private Logger logger = LoggerFactory.getLogger(NiconicoApiClient.class);
-
     private LoginInfo loginInfo = null;
 
     public void login(String mail, String password) throws NiconicoException {
+        loginInfo = null;
         NicoLogin method = new NicoLogin();
         loginInfo = method.excute(mail, password);
+    }
+
+    public boolean isLogin() {
+        boolean ret = true;
+        if (loginInfo == null || StringUtils.isBlank(loginInfo.mail) || loginInfo.cookie == null) {
+            ret = false;
+        }
+        return ret;
     }
 
     public List<SearchResult> search(String query, String sort, int page,
@@ -61,6 +66,11 @@ public class NiconicoApiClient {
     public List<MylistItem> getMylistItems(String mylistId) throws NiconicoException {
         NicoGetMylist method = new NicoGetMylist(loginInfo);
         return method.getMylistItems(mylistId);
+    }
+
+    public List<MylistItem> getToriaezuMylist() throws NiconicoException {
+        NicoGetMylist method = new NicoGetMylist(loginInfo);
+        return method.getToriaezuMylist();
     }
 
     public File downloadVideo(String id, String destDir) throws NiconicoException {

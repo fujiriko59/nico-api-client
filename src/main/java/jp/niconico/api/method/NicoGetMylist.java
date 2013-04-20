@@ -9,7 +9,6 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class NicoGetMylist {
@@ -68,22 +67,6 @@ public class NicoGetMylist {
         }
 
         return list;
-    }
-
-    //TODO
-    public List<Mylist> getUserMylist(String userId) throws NiconicoException {
-        DefaultHttpClient httpClient = null;
-        try {
-
-        } catch (Exception e) {
-            throw new NiconicoException(e.getMessage());
-        } finally {
-            if (httpClient != null) {
-                httpClient.getConnectionManager().shutdown();
-            }
-        }
-
-        return null;
     }
 
     public List<MylistItem> getMylistItems(String mylistId) throws NiconicoException {

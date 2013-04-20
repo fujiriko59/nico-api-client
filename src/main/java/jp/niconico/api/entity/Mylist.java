@@ -38,11 +38,7 @@ public class Mylist {
             mylist.userId = map.get("user_id");
             mylist.name = map.get("name");
             mylist.description = map.get("description");
-            if ("1".equals(map.get("public"))) {
-                mylist.pub = true;
-            } else {
-                mylist.pub = false;
-            }
+            mylist.pub = "1".equals(map.get("public"));
             mylist.defaultSort = Integer.parseInt(map.get("default_sort"));
             mylist.createTime = Long.parseLong(map.get("create_time"));
             mylist.updateTime = Long.parseLong(map.get("update_time"));

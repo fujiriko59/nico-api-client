@@ -25,8 +25,7 @@ public class SearchResult {
     public String descriptionShort;
 
     public static List<SearchResult> parse(String json) throws JSONException {
-        SearchPojo pojo = null;
-        pojo = JSON.decode(json, SearchPojo.class);
+        SearchPojo pojo = JSON.decode(json, SearchPojo.class);
         return pojo.list;
     }
 

@@ -72,18 +72,10 @@ public class MylistItem {
                 myitem.mylistCounter = Long.parseLong(map.get("mylist_counter"));
                 myitem.groupType = map.get("group_type");
                 myitem.length = Long.parseLong(map.get("length_seconds"));
-                if ("1".equals(map.get("deleted"))) {
-                    myitem.deleted = true;
-                } else {
-                    myitem.deleted = false;
-                }
+                myitem.deleted = "1".equals(map.get("deleted"));
                 myitem.lastResBody = map.get("last_res_body");
                 myitem.watchId = map.get("watch_id");
-                if (item.watch == 1) {
-                    myitem.watch = true;
-                } else {
-                    myitem.watch = false;
-                }
+                myitem.watch = item.watch == 1;
                 myitem.createTime = item.createTime;
                 myitem.updateTime = item.updateTime;
 

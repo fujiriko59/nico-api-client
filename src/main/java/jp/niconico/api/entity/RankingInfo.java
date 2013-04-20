@@ -6,7 +6,6 @@ import javax.xml.bind.JAXB;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class RankingInfo {
