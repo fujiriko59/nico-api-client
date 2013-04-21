@@ -1,6 +1,7 @@
 package jp.niconico.api.client;
 
 import java.io.File;
+import java.util.Date;
 import java.util.List;
 
 import jp.niconico.api.entity.*;
@@ -14,7 +15,8 @@ public class NiconicoApiClient {
 
     /**
      * niconicoのログイン情報を設定する。
-     * @param mail niconicoアカウント
+     *
+     * @param mail     niconicoアカウント
      * @param password niconicoパスワード
      * @throws NiconicoException
      */
@@ -26,6 +28,7 @@ public class NiconicoApiClient {
 
     /**
      * ログイン状態の取得。
+     *
      * @return true:ログインしている false:ログインしていない
      */
     public boolean isLogin() {
@@ -38,10 +41,11 @@ public class NiconicoApiClient {
 
     /**
      * 動画を検索。
-     * @param query 検索クエリ
-     * @param sort ソート種別 n:コメント日時 v:再生数 m:マイリスト r:コメント数 f:投稿日時 l:再生時間
-     * @param page 取得ページ
-     * @param order d:降順 a:昇順
+     *
+     * @param query     検索クエリ
+     * @param sort      ソート種別 n:コメント日時 v:再生数 m:マイリスト r:コメント数 f:投稿日時 l:再生時間
+     * @param page      取得ページ
+     * @param order     d:降順 a:昇順
      * @param tagSearch false:キーワード検索 true:タグ検索
      * @return 検索結果
      * @throws NiconicoException
@@ -58,6 +62,7 @@ public class NiconicoApiClient {
 
     /**
      * Flv情報取得。
+     *
      * @param id 動画ID
      * @return Flv情報
      * @throws NiconicoException
@@ -69,6 +74,7 @@ public class NiconicoApiClient {
 
     /**
      * コメント取得。動画上に表示されているコメントを取得する。
+     *
      * @param id 動画ID
      * @return コメント
      * @throws NiconicoException
@@ -77,11 +83,27 @@ public class NiconicoApiClient {
         FlvInfo flvInfo = getFlv(id);
 
         NicoGetComment method = new NicoGetComment(loginInfo, flvInfo);
-        return method.excute(id, 0);
+        return method.excute(id);
+    }
+
+    /**
+     * コメント過去ログ取得。プレミアム会員アカウントでのログインが必要。
+     *
+     * @param id   動画ID
+     * @param date 時刻。ここで指定した時点で表示されるコメントが取れる
+     * @return コメント
+     * @throws NiconicoException
+     */
+    public List<CommentInfo> getPastComment(String id, Date date) throws NiconicoException {
+        FlvInfo flvInfo = getFlv(id);
+
+        NicoGetComment method = new NicoGetComment(loginInfo, flvInfo);
+        return method.excute(id, date);
     }
 
     /**
      * 動画情報取得。
+     *
      * @param id 動画ID
      * @return 動画情報
      * @throws NiconicoException
@@ -93,7 +115,8 @@ public class NiconicoApiClient {
 
     /**
      * ランキング取得
-     * @param period 期間 hourly:1時間 daily:1日 weeky:週間 monthly:月間 total:全ての期間
+     *
+     * @param period   期間 hourly:1時間 daily:1日 weeky:週間 monthly:月間 total:全ての期間
      * @param rankKind ランキング種別 fav:総合 view:再生数 res:コメント数 mylist:マイリスト数
      * @return ランキング情報
      * @throws NiconicoException
@@ -105,6 +128,7 @@ public class NiconicoApiClient {
 
     /**
      * ログインしているユーザのマイリストを取得。
+     *
      * @return マイリスト
      * @throws NiconicoException
      */
@@ -115,6 +139,7 @@ public class NiconicoApiClient {
 
     /**
      * マイリストに登録されているアイテムを取得。
+     *
      * @param mylistId マイリストID
      * @return マイリストのアイテム
      * @throws NiconicoException
@@ -126,6 +151,7 @@ public class NiconicoApiClient {
 
     /**
      * ログインしているユーザーのとりあえずマイリストを取得。
+     *
      * @return とりあえずマイリストのアイテム
      * @throws NiconicoException
      */
@@ -136,7 +162,8 @@ public class NiconicoApiClient {
 
     /**
      * 動画をダウンロード。
-     * @param id 動画ID
+     *
+     * @param id      動画ID
      * @param destDir ダウンロード先ディレクトリ
      * @return ダウンロードされたファイル
      * @throws NiconicoException

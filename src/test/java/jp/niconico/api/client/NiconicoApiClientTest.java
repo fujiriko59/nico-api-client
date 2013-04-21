@@ -6,7 +6,7 @@ import junit.framework.TestCase;
 import org.apache.commons.lang.StringUtils;
 
 import java.io.File;
-import java.util.List;
+import java.util.*;
 
 public class NiconicoApiClientTest extends TestCase {
     private String mail = "";
@@ -76,8 +76,8 @@ public class NiconicoApiClientTest extends TestCase {
         NiconicoApiClient client = new NiconicoApiClient();
         try {
             client.login(mail, password);
-            List<CommentInfo> comments = client.getComment("sm14027065");
-            assertTrue(comments.size() > 1000);
+            List<CommentInfo> comments = client.getComment("sm1283816");
+            assertTrue(comments.size() >= 1000);
             for (CommentInfo comment : comments) {
                 assertTrue(StringUtils.isNotBlank(comment.msg));
                 assertNotNull(comment.id);
@@ -90,15 +90,37 @@ public class NiconicoApiClientTest extends TestCase {
         }
     }
 
+    public void test_get_pastcomment_success() {
+        NiconicoApiClient client = new NiconicoApiClient();
+        try {
+            client.login(mail, password);
+            Calendar cal = Calendar.getInstance(Locale.JAPAN);
+            cal.set(2011, 4 - 1, 26, 0, 50);
+            Date date = cal.getTime();
+            List<CommentInfo> comments = client.getPastComment("sm1283816", date);
+            assertTrue(comments.size() >= 1000);
+            for (CommentInfo comment : comments) {
+                assertTrue(StringUtils.isNotBlank(comment.msg));
+                assertNotNull(comment.id);
+                assertNotNull(comment.userId);
+                assertTrue(comment.date > 0);
+                assertTrue(comment.vpos >= 0);
+                assertTrue(comment.date <= date.getTime() / 1000);
+            }
+        } catch (NiconicoException e) {
+            fail(e.getMessage());
+        }
+
+    }
+
     public void test_get_thumbinfo_success() {
         NiconicoApiClient client = new NiconicoApiClient();
         try {
             ThumbInfo info = client.getThumbInfo("sm20610463");
             assertTrue(StringUtils.isNotEmpty(info.title));
-            assertNotNull(info.id);
+            assertTrue(StringUtils.isNotBlank(info.id));
             assertNotNull(info.lastResBody);
             assertNotNull(info.length);
-            assertNotNull(info.userId);
             assertTrue(info.viewCounter > 0);
             assertTrue(info.commentNum > 0);
             assertTrue(info.mylistCounter > 0);
@@ -127,9 +149,9 @@ public class NiconicoApiClientTest extends TestCase {
                         assertNotNull(result.thumbnailUrl);
                         assertTrue(result.viewCounter > 0);
                         assertTrue(result.viewCounter >= result.viewCounterPeriod);
-                        assertTrue(result.commentNum > 0);
+                        assertTrue(result.commentNum >= 0);
                         assertTrue(result.commentNum >= result.commentNumPeriod);
-                        assertTrue(result.mylistCounter > 0);
+                        assertTrue(result.mylistCounter >= 0);
                         assertTrue(result.mylistCounter >= result.mylistCounterPeriod);
                         assertEquals(result.rank, rank);
                         rank++;
