@@ -3,7 +3,7 @@
 ##build
     $ git clone git@github.com:fujiriko59/nico-api-client.git
     $ cd nico-api-client
-    $ mvn clean package
+    $ mvn clean package -Dmaven.test.skip=true
 
 ##samples
 *ログイン*  

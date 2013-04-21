@@ -77,11 +77,10 @@ public class NiconicoApiClientTest extends TestCase {
         try {
             client.login(mail, password);
             List<CommentInfo> comments = client.getComment("sm14027065");
-            assertTrue(comments.size() > 0);
+            assertTrue(comments.size() > 1000);
             for (CommentInfo comment : comments) {
-                assertTrue(StringUtils.isNotEmpty(comment.msg));
+                assertTrue(StringUtils.isNotBlank(comment.msg));
                 assertNotNull(comment.id);
-                assertNotNull(comment.mail);
                 assertNotNull(comment.userId);
                 assertTrue(comment.date > 0);
                 assertTrue(comment.vpos >= 0);

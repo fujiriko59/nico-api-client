@@ -40,21 +40,23 @@ public class CommentInfo {
             ByteArrayInputStream in = new ByteArrayInputStream(xml.getBytes("UTF-8"));
             Packet root = JAXB.unmarshal(in, Packet.class);
             for (Chat chat : root.chat) {
-                CommentInfo info = new CommentInfo();
-                info.id = id;
-                info.no = chat.no;
-                info.vpos = chat.vpos;
-                info.date = chat.date;
-                info.mail = chat.mail;
-                info.userId = chat.user_id;
-                if (chat.premium == 1) {
-                    info.premium = true;
+                if (chat.deleted == 0) {
+                    CommentInfo info = new CommentInfo();
+                    info.id = id;
+                    info.no = chat.no;
+                    info.vpos = chat.vpos;
+                    info.date = chat.date;
+                    info.mail = chat.mail;
+                    info.userId = chat.user_id;
+                    if (chat.premium == 1) {
+                        info.premium = true;
+                    }
+                    if (chat.anonymity == 1) {
+                        info.anonymity = true;
+                    }
+                    info.msg = chat.msg;
+                    list.add(info);
                 }
-                if (chat.anonymity == 1) {
-                    info.anonymity = true;
-                }
-                info.msg = chat.msg;
-                list.add(info);
             }
 
         } catch (Exception e) {
@@ -93,6 +95,9 @@ public class CommentInfo {
 
             @XmlValue
             public String msg;
+
+            @XmlAttribute
+            public int deleted = 0;
         }
     }
 

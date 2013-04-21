@@ -63,7 +63,7 @@ public class NicoGetComment {
 
                 }
             }
-
+            long length = (flvInfo.l / 60) + 1;
             StringBuilder xml = new StringBuilder();
             if (StringUtils.isBlank(threadKey)) {
                 xml.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
@@ -77,11 +77,11 @@ public class NicoGetComment {
                 xml.append("thread=\"" + flvInfo.threadId + "\" ");
                 xml.append("user_id=\"" + flvInfo.userId + "\"");
                 xml.append(">");
-                xml.append("0-9999:1,10000");
+                xml.append("0-" + length + ":100,1000");
                 xml.append("</thread_leaves>");
                 xml.append("</packet>");
             } else {
-                // TODO 動作確認
+                // TODO 動作確認してない
                 xml.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
                 xml.append("<packet>");
                 xml.append("<thread ");
@@ -101,7 +101,7 @@ public class NicoGetComment {
                     xml.append("force_184=\"" + force_184 + "\"");
                 }
                 xml.append(">");
-                xml.append("0-9999:1,10000");
+                xml.append("0-" + length + ":100,1000");
                 xml.append("</thread_leaves>");
                 xml.append("</packet>");
             }
@@ -112,9 +112,7 @@ public class NicoGetComment {
 
             String responseXml = EntityUtils.toString(response.getEntity(),
                     "UTF-8");
-
             list = CommentInfo.parse(id, responseXml);
-
         } catch (Exception e) {
             throw new NiconicoException(e.getMessage());
         } finally {
