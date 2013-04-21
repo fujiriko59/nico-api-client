@@ -6,7 +6,8 @@
     $ mvn clean package
 
 ##samples
-*ログイン*  ほとんどのAPIの実行にはログインが必要。しなくてもいいのもある。
+*ログイン*  
+ほとんどのAPIの実行にはログインが必要。しなくてもいいのもある。
 
     NiconicoApiClient client = new NiconicoApiClient();
     client.login("mail address", "password");
@@ -23,10 +24,11 @@
 
     List<RankingInfo> list = client.getRanking("daily", "fav");
 
-*マイリスト取得*
+*マイリスト取得*  
 ログインしているアカウントのマイリストを取得。
 
     List<Mylist> list = client.getOwnerMylists();
+    List<MylistItem> items = client.getMylistItems(list.get(0).id);
 
 *動画ダウンロード*
 
