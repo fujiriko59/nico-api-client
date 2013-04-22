@@ -53,12 +53,12 @@ public class NicoDownloadVideo {
             httpClient = new DefaultHttpClient();
             httpClient.setCookieStore(loginInfo.cookie);
             HttpHead httpHead = new HttpHead(videoUrl + videoId);
-            httpClient.execute(httpHead);
+            HttpResponse response = httpClient.execute(httpHead);
+            //release entity
+            EntityUtils.consumeQuietly(response.getEntity());
 
             HttpGet httpGet = new HttpGet(flvInfo.url);
-            HttpResponse response = httpClient.execute(httpGet);
-            //for release entity
-            response.getEntity().getContent();
+            response = httpClient.execute(httpGet);
 
             logger.info("download video:" + videoId + " title: " + thumbInfo.title + " filesize:"
                     + String.format("%1$,3d", thumbInfo.sizeHigh / 1024) + "KByte");

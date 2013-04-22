@@ -10,6 +10,7 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicHeader;
+import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -35,6 +36,7 @@ public class NicoLogin {
                     + password, "UTF-8"));
 
             HttpResponse response = httpClient.execute(httpPost);
+            EntityUtils.consumeQuietly(response.getEntity());
             if (response.getStatusLine().getStatusCode() != 302) {
                 throw new NiconicoException("Login request error.");
             }
@@ -49,9 +51,6 @@ public class NicoLogin {
                     break;
                 }
             }
-
-            //release entity
-            response.getEntity().getContent();
 
             info = new LoginInfo();
             info.cookie = httpClient.getCookieStore();
