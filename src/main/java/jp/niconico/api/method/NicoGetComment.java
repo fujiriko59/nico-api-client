@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import jp.niconico.api.http.HttpClientSetting;
 import org.apache.commons.lang.StringUtils;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -44,7 +45,7 @@ public class NicoGetComment {
         List<CommentInfo> list = new ArrayList<CommentInfo>();
 
         try {
-            httpClient = new DefaultHttpClient();
+            httpClient = HttpClientSetting.createHttpClient();
             HttpGet httpGet = new HttpGet(threadKeyUrl + flvInfo.threadId);
             httpClient.setCookieStore(loginInfo.cookie);
             HttpResponse response = httpClient.execute(httpGet);
@@ -160,7 +161,7 @@ public class NicoGetComment {
                     "UTF-8");
             list = CommentInfo.parse(id, responseXml);
         } catch (Exception e) {
-            throw new NiconicoException(e.getMessage());
+            throw new NiconicoException(e);
         } finally {
             if (httpClient != null) {
                 httpClient.getConnectionManager().shutdown();

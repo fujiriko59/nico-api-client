@@ -3,6 +3,7 @@ package jp.niconico.api.method;
 import jp.niconico.api.entity.LoginInfo;
 import jp.niconico.api.exception.NiconicoException;
 
+import jp.niconico.api.http.HttpClientSetting;
 import org.apache.commons.lang.StringUtils;
 import org.apache.http.Header;
 import org.apache.http.HttpResponse;
@@ -25,10 +26,10 @@ public class NicoLogin {
         DefaultHttpClient httpClient = null;
         LoginInfo info = null;
         try {
-            httpClient = new DefaultHttpClient();
+            httpClient = HttpClientSetting.createHttpClient();
 
             HttpPost httpPost = new HttpPost(
-                    "https://secure.nicovideo.jp:443/secure/login?site=niconico");
+                    "https://secure.nicovideo.jp/secure/login?site=niconico");
             Header[] headers = {new BasicHeader("Content-type",
                     "application/x-www-form-urlencoded")};
             httpPost.setHeaders(headers);
@@ -56,7 +57,7 @@ public class NicoLogin {
             info.cookie = httpClient.getCookieStore();
             info.mail = mail;
         } catch (Exception e) {
-            logger.warn("Failed to login -> " + mail);
+            logger.warn("Failed to login -> " + mail, e);
             throw new NiconicoException(e.getMessage());
         } finally {
             if (httpClient != null) {

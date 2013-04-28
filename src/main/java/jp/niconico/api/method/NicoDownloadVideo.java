@@ -4,6 +4,7 @@ import jp.niconico.api.entity.FlvInfo;
 import jp.niconico.api.entity.LoginInfo;
 import jp.niconico.api.entity.ThumbInfo;
 import jp.niconico.api.exception.NiconicoException;
+import jp.niconico.api.http.HttpClientSetting;
 import org.apache.commons.io.FileUtils;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -50,7 +51,7 @@ public class NicoDownloadVideo {
 
         DefaultHttpClient httpClient = null;
         try {
-            httpClient = new DefaultHttpClient();
+            httpClient = HttpClientSetting.createHttpClient();
             httpClient.setCookieStore(loginInfo.cookie);
             HttpHead httpHead = new HttpHead(videoUrl + videoId);
             HttpResponse response = httpClient.execute(httpHead);
@@ -80,7 +81,7 @@ public class NicoDownloadVideo {
 
 
         } catch (Exception e) {
-            throw new NiconicoException(e.getMessage());
+            throw new NiconicoException(e);
         } finally {
             if (httpClient != null) {
                 httpClient.getConnectionManager().shutdown();

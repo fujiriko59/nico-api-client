@@ -11,6 +11,14 @@ public class NiconicoException extends Exception implements Serializable {
         super(message);
     }
 
+    public NiconicoException(Exception e) {
+        super(e);
+    }
+
+    public NiconicoException(String message, Exception e) {
+        super(message, e);
+    }
+
     public NiconicoException(int code, String message) {
         super(message);
         this.code = code;

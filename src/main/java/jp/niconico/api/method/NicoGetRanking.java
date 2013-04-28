@@ -2,6 +2,7 @@ package jp.niconico.api.method;
 
 import jp.niconico.api.entity.RankingInfo;
 import jp.niconico.api.exception.NiconicoException;
+import jp.niconico.api.http.HttpClientSetting;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
@@ -29,7 +30,7 @@ public class NicoGetRanking {
             }
             url.append("all?rss=2.0");
 
-            httpClient = new DefaultHttpClient();
+            httpClient = HttpClientSetting.createHttpClient();
             HttpGet httpGet = new HttpGet(url.toString());
             HttpResponse response = httpClient.execute(httpGet);
 
@@ -38,7 +39,7 @@ public class NicoGetRanking {
 
 
         } catch (Exception e) {
-            throw new NiconicoException(e.getMessage());
+            throw new NiconicoException(e);
         } finally {
             if (httpClient != null) {
                 httpClient.getConnectionManager().shutdown();

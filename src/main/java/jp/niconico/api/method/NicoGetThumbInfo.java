@@ -1,6 +1,7 @@
 package jp.niconico.api.method;
 
 
+import jp.niconico.api.http.HttpClientSetting;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
@@ -17,7 +18,7 @@ public class NicoGetThumbInfo {
         HttpClient httpClient = null;
         ThumbInfo info = null;
         try {
-            httpClient = new DefaultHttpClient();
+            httpClient = HttpClientSetting.createHttpClient();
             HttpGet httpGet = new HttpGet(methodUrl + id);
 
             HttpResponse response = httpClient.execute(httpGet);
@@ -26,7 +27,7 @@ public class NicoGetThumbInfo {
             info = ThumbInfo.parse(xml);
 
         } catch (Exception e) {
-            throw new NiconicoException(e.getMessage());
+            throw new NiconicoException(e);
         } finally {
             if (httpClient != null) {
                 httpClient.getConnectionManager().shutdown();

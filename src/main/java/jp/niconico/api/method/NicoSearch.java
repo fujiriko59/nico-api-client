@@ -6,6 +6,7 @@ import jp.niconico.api.entity.LoginInfo;
 import jp.niconico.api.entity.SearchResult;
 import jp.niconico.api.exception.NiconicoException;
 
+import jp.niconico.api.http.HttpClientSetting;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -50,7 +51,7 @@ public class NicoSearch {
             url.append("&");
             url.append("sort=" + sort);
 
-            httpClient = new DefaultHttpClient();
+            httpClient = HttpClientSetting.createHttpClient();
             httpClient.setCookieStore(loginInfo.cookie);
             HttpGet httpGet = new HttpGet(url.toString());
             HttpResponse response = httpClient.execute(httpGet);
@@ -64,10 +65,9 @@ public class NicoSearch {
             results = SearchResult.parse(json);
 
         } catch (Exception e) {
-            logger.warn("Failed to search. query=" + query + " page=" + page
+            throw new NiconicoException("Failed to search. query=" + query + " page=" + page
                     + " sort=" + sort + " order=" + order + " tagSearch="
-                    + tagSearch);
-            throw new NiconicoException(e.getMessage());
+                    + tagSearch, e);
         } finally {
             if (httpClient != null) {
                 httpClient.getConnectionManager().shutdown();

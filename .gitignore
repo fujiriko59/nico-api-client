@@ -2,6 +2,7 @@ target
 .classpath
 .project
 .settings
+.idea
 logs
 .DS_Store
 nico-api-client.iml

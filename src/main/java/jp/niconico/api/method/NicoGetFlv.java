@@ -2,6 +2,7 @@ package jp.niconico.api.method;
 
 import java.net.URLDecoder;
 
+import jp.niconico.api.http.HttpClientSetting;
 import org.apache.commons.lang.StringUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -37,7 +38,7 @@ public class NicoGetFlv {
                 url.append("?as3=1");
             }
 
-            httpClient = new DefaultHttpClient();
+            httpClient = HttpClientSetting.createHttpClient();
             HttpGet httpGet = new HttpGet(url.toString());
             httpClient.setCookieStore(loginInfo.cookie);
 
@@ -86,7 +87,7 @@ public class NicoGetFlv {
                 }
             }
         } catch (Exception e) {
-            throw new NiconicoException(e.getMessage());
+            throw new NiconicoException(e);
         } finally {
             if (httpClient == null) {
                 httpClient.getConnectionManager().shutdown();
