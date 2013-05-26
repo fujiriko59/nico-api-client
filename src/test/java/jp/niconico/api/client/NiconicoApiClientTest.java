@@ -63,6 +63,7 @@ public class NiconicoApiClientTest extends TestCase {
                     assertTrue(result.mylistCounter > 0);
                     assertTrue(result.viewCounter > 0);
                     assertTrue(result.numRes > 0);
+                    assertTrue(result.totalCount > 0);
                 }
                 tagsearch = true;
                 Thread.sleep(3000);

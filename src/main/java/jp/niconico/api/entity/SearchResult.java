@@ -24,13 +24,20 @@ public class SearchResult {
 
     public String descriptionShort;
 
+    public long totalCount;
+
     public static List<SearchResult> parse(String json) throws JSONException {
         SearchPojo pojo = JSON.decode(json, SearchPojo.class);
+        for(SearchResult result: pojo.list) {
+            result.totalCount = pojo.count;
+        }
         return pojo.list;
     }
 
     public static class SearchPojo {
         public List<SearchResult> list;
+
+        public long count;
     }
 
 }
