@@ -52,7 +52,7 @@ public class NiconicoApiClientTest extends TestCase {
             client.login(mail, password);
             boolean tagsearch = false;
             for (int i = 0; i < 2; i++) {
-                List<SearchResult> results = client.search("とある科学の超電磁砲", "m", 1, "d", tagsearch);
+                List<SearchResult> results = client.search("うたの☆プリンスさまっ♪マジLOVE2000%", "m", 1, "d", tagsearch);
                 assertTrue(results.size() > 0);
                 for (SearchResult result : results) {
                     assertNotNull(result.id);

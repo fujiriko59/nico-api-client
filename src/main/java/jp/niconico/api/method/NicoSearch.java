@@ -1,5 +1,6 @@
 package jp.niconico.api.method;
 
+import java.net.URLEncoder;
 import java.util.List;
 
 import jp.niconico.api.entity.LoginInfo;
@@ -42,7 +43,7 @@ public class NicoSearch {
             } else {
                 url.append("search");
             }
-            url.append("/" + query);
+            url.append("/" + URLEncoder.encode(query, "UTF-8"));
 
             url.append("?mode=watch&");
             url.append("order=" + order);
